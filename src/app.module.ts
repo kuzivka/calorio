@@ -16,6 +16,9 @@ import { RecipeModule } from './recipes/recipes.module';
       entities: ['./**/*.entity.js'],
       synchronize: true,
       autoLoadEntities: true,
+      cli: {
+        migrationsDir: 'migration',
+      },
     }),
     RecipeModule,
   ],

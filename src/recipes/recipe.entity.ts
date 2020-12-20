@@ -12,8 +12,11 @@ export class Recipe {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ unique: true })
   name: string;
+
+  @Column()
+  description: string;
 
   @ManyToMany(() => Product)
   @JoinTable()

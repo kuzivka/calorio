@@ -1,0 +1,21 @@
+<form method="POST" url="add-recipe">
+  <div>
+    <label for="name">Recipe name:</label>
+    <input name="name" type="text" required />
+  </div>
+  <div>
+    <label for="description">Description:</label>
+    <textarea name="description" required></textarea>
+  </div>
+  <div>
+    <label for="products">Products:</label>
+    <select name="products" required multiple>
+      {{#each products}}
+        <option>
+          {{name}}
+        </option>
+      {{/each}}
+    </select>
+  </div>
+  <input type="submit" value="Створити" />
+</form>
