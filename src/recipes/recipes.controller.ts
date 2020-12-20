@@ -1,9 +1,12 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Res } from '@nestjs/common';
+import { Response } from 'express';
 
 @Controller()
 export class RecipesController {
   @Get()
-  getAllRecipes(): string {
-    return 'This action returns all recipes';
+  getAllRecipes(@Res() res: Response): void {
+    return res.render('index.hbs', {
+      message: 'Hello my first nest application.',
+    });
   }
 }
