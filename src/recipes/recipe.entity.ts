@@ -18,6 +18,9 @@ export class Recipe {
   @Column()
   description: string;
 
+  @Column({ default: false })
+  vegeterian: boolean;
+
   @ManyToMany(() => Product)
   @JoinTable()
   products: Product[];

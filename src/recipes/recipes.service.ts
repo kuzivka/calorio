@@ -23,7 +23,7 @@ export class RecipesService {
   }
 
   async createNewRecipe(recipe: RecipeDTO) {
-    const { products: productNames } = recipe;
+    const { products: productNames, ...restRecipe } = recipe;
     const normalizedProductNames =
       typeof productNames === 'string' ? [productNames] : productNames;
     const products = await Promise.all(
@@ -32,8 +32,8 @@ export class RecipesService {
       }),
     );
     const newRecipe = this.recipesRepository.create({
-      name: recipe.name,
-      description: recipe.description,
+      ...restRecipe,
+      vegeterian: Boolean(restRecipe.vegeterian),
     });
     newRecipe.products = products;
     return this.recipesRepository.save(newRecipe);
