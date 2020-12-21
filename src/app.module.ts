@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RecipeModule } from './recipes/recipes.module';
+import { CaloriesModule } from './calories/calories.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { RecipeModule } from './recipes/recipes.module';
       },
     }),
     RecipeModule,
+    CaloriesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
