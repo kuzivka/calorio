@@ -18,7 +18,7 @@ export class RecipesService {
     return this.productsRepository.find();
   }
 
-  findAll(): Promise<Recipe[]> {
+  getAllRecipies(): Promise<Recipe[]> {
     return this.recipesRepository.find();
   }
 
@@ -37,6 +37,10 @@ export class RecipesService {
     });
     newRecipe.products = products;
     return this.recipesRepository.save(newRecipe);
+  }
+
+  deleteRecipe(name: string) {
+    return this.recipesRepository.delete({ name });
   }
 
   // findVegeterianRecipes(): Promise<Recipe[]> {

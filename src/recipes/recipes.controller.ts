@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Inject, Post, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Post,
+  Query,
+  Res,
+} from '@nestjs/common';
 import { Response } from 'express';
 import { RecipesService } from './recipes.service';
 import { RecipeDTO } from './recipie.dto';
@@ -9,10 +17,21 @@ export class RecipesController {
   private recipesService: RecipesService;
 
   @Get()
-  showListOfRecipes(@Res() res: Response): void {
+  async showListOfRecipes(@Res() res: Response) {
+    const recipes = await this.recipesService.getAllRecipies();
     return res.render('index.hbs', {
-      message: 'Hello my first nest application.',
+      recipes: recipes,
     });
+  }
+
+  @Get('delete-recipe')
+  async deleteRecipe(
+    @Query('recipeName') recipeName: string,
+    @Res() res: Response,
+  ) {
+    console.log('Recipe name: ', recipeName);
+    await this.recipesService.deleteRecipe(recipeName);
+    return res.redirect('/');
   }
 
   @Get('/add-recipe')

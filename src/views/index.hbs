@@ -10,7 +10,17 @@
     </section>
     <main>
       Main section
-      {{ message }}
+      <ul>
+        {{#each recipes}}
+          <li>
+            {{name}}
+            <form action="/delete-recipe" method="GET">
+              <input name="recipeName" type="hidden" value="{{name}}" />
+              <input type="submit" value="Видалити" />
+            </form>
+          </li>
+        {{/each}}
+      </ul>
       <a href="/add-recipe">Go here to insert new recipe</a>
     </main>
     <section>
