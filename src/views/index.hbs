@@ -18,6 +18,10 @@
               <input name="recipeName" type="hidden" value="{{name}}" />
               <input type="submit" value="Видалити" />
             </form>
+            <form action="/edit-recipe" method="GET">
+              <input name="recipeName" type="hidden" value="{{name}}" />
+              <input type="submit" value="Редагувати" />
+            </form>
           </li>
         {{/each}}
       </ul>

@@ -29,7 +29,6 @@ export class RecipesController {
     @Query('recipeName') recipeName: string,
     @Res() res: Response,
   ) {
-    console.log('Recipe name: ', recipeName);
     await this.recipesService.deleteRecipe(recipeName);
     return res.redirect('/');
   }
@@ -44,8 +43,36 @@ export class RecipesController {
 
   @Post('/add-recipe')
   async createNewRecipe(@Res() res: Response, @Body() body: RecipeDTO) {
-    console.log('body: ', body);
     await this.recipesService.createNewRecipe(body);
     return res.redirect('/');
+  }
+
+  @Get('/edit-recipe')
+  async renderEditRecipeForm(
+    @Res() res: Response,
+    @Query('recipeName') recipeName: string,
+  ) {
+    const allProducts = await this.recipesService.getAllProducts();
+    const recipe = await this.recipesService.getRecipeByName(recipeName);
+    const recipesProductsName = recipe.products.map((p) => p.name);
+    const products = allProducts.map((product) => {
+      return {
+        ...product,
+        selected: recipesProductsName.includes(product.name),
+      };
+    });
+    res.render('edit-recipe.hbs', {
+      ...recipe,
+      products,
+    });
+  }
+
+  @Post('/edit-recipe')
+  async editRecipe(
+    @Res() res: Response,
+    @Body() body: RecipeDTO & { id: number },
+  ) {
+    await this.recipesService.updateRecipe(body);
+    res.redirect('/');
   }
 }

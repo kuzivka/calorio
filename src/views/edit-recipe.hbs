@@ -1,0 +1,32 @@
+<form method="POST" action="edit-recipe">
+  <div>
+    <label for="name">Recipe name:</label>
+    <input name="name" type="text" value={{name}} required />
+  </div>
+  <div>
+    <label for="description">Description:</label>
+    <textarea name="description" required>{{description}}</textarea>
+  <div>
+    <label for="vegeterian">Is vegeterian:</label>
+    <input checked={{vegeterian}} type="checkbox" name="vegeterian" />
+  </div>
+  <input name="id" type="hidden" value="{{id}}" />
+
+  <div>
+    <label for="products">Products:</label>
+    <select name="products" required multiple value={{products}}>
+      {{#each products}}
+        {{#if selected}}
+          <option selected>
+            {{name}}
+          </option>
+        {{else}}
+          <option>
+            {{name}}
+          </option>
+        {{/if}}
+      {{/each}}
+    </select>
+  </div>
+  <input type="submit" value="Редагувати" />
+</form>

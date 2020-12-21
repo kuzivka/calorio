@@ -18,6 +18,42 @@ export class RecipesService {
     return this.productsRepository.find();
   }
 
+  private getProductsByNames(names: string[]): Promise<Product[]> {
+    return Promise.all(
+      names.map((name) => {
+        return this.productsRepository.findOne({ name });
+      }),
+    );
+  }
+
+  async updateRecipe(newRecipe: RecipeDTO & { id: number }) {
+    const normalizedProductNames =
+      typeof newRecipe.products === 'string'
+        ? [newRecipe.products]
+        : newRecipe.products;
+    const selectedProductsEntities = await this.getProductsByNames(
+      normalizedProductNames,
+    );
+    const recipeEntity = await this.recipesRepository.findOne(newRecipe.id, {
+      relations: ['products'],
+    });
+    recipeEntity.name = newRecipe.name;
+    recipeEntity.description = newRecipe.description;
+    recipeEntity.products = selectedProductsEntities;
+    await this.recipesRepository.save(recipeEntity);
+  }
+
+  getRecipeByName(recipeName: string): Promise<Recipe> {
+    return this.recipesRepository.findOne(
+      {
+        name: recipeName,
+      },
+      {
+        relations: ['products'],
+      },
+    );
+  }
+
   getAllRecipies(): Promise<Recipe[]> {
     return this.recipesRepository.find();
   }
@@ -42,12 +78,6 @@ export class RecipesService {
   deleteRecipe(name: string) {
     return this.recipesRepository.delete({ name });
   }
-
-  // findVegeterianRecipes(): Promise<Recipe[]> {
-  // .where("user.firstName = :firstName", { firstName })
-
-  // return this.recipesRepository.find().where("recipe");
-  // }
 
   async remove(id: number): Promise<void> {
     await this.recipesRepository.delete(id);
