@@ -43,15 +43,10 @@ export class RecipesService {
     await this.recipesRepository.save(recipeEntity);
   }
 
-  getRecipeByName(recipeName: string): Promise<Recipe> {
-    return this.recipesRepository.findOne(
-      {
-        name: recipeName,
-      },
-      {
-        relations: ['products'],
-      },
-    );
+  getRecipeById(recipeId: string | number): Promise<Recipe> {
+    return this.recipesRepository.findOne(recipeId, {
+      relations: ['products'],
+    });
   }
 
   getAllRecipies(): Promise<Recipe[]> {
@@ -75,8 +70,8 @@ export class RecipesService {
     return this.recipesRepository.save(newRecipe);
   }
 
-  deleteRecipe(name: string) {
-    return this.recipesRepository.delete({ name });
+  deleteRecipe(id: string | number) {
+    return this.recipesRepository.delete({ id: Number(id) });
   }
 
   async remove(id: number): Promise<void> {

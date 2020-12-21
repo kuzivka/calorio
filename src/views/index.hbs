@@ -10,6 +10,11 @@
     </section>
     <main>
       Main section
+      <div>
+        {{#if error}}
+          <span>Error: {{error}}</span>
+        {{/if}}
+      </div>
       <form>
         <label for="onlyVegeterian">Показувати лише вегетеріанський</label>
         {{#if vegeterian}}
@@ -23,11 +28,12 @@
           <li>
             {{name}}
             <form action="/delete-recipe" method="GET">
-              <input name="recipeName" type="hidden" value="{{name}}" />
+              <input name="recipeId" type="hidden" value="{{id}}" />
+              <input name="secretKey" type="password" />
               <input type="submit" value="Видалити" />
             </form>
             <form action="/edit-recipe" method="GET">
-              <input name="recipeName" type="hidden" value="{{name}}" />
+              <input name="recipeId" type="hidden" value="{{id}}" />
               <input type="submit" value="Редагувати" />
             </form>
           </li>

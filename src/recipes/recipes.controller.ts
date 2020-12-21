@@ -8,6 +8,7 @@ import {
   Res,
 } from '@nestjs/common';
 import { Response } from 'express';
+import { SECRET_KEY } from './constants';
 import { RecipesService } from './recipes.service';
 import { RecipeDTO } from './recipie.dto';
 
@@ -20,6 +21,7 @@ export class RecipesController {
   async showListOfRecipes(
     @Res() res: Response,
     @Query('onlyVegeterian') onlyVegeterian: string,
+    @Query('error') error: string,
   ) {
     const recipes = (await this.recipesService.getAllRecipies()).filter((r) => {
       return !onlyVegeterian || r.vegeterian == Boolean(onlyVegeterian);
@@ -27,39 +29,59 @@ export class RecipesController {
     return res.render('index.hbs', {
       recipes: recipes,
       vegeterian: Boolean(onlyVegeterian),
+      error,
     });
   }
 
   @Get('delete-recipe')
   async deleteRecipe(
-    @Query('recipeName') recipeName: string,
     @Res() res: Response,
+    @Query('recipeId') recipeId: string | number,
+    @Query('secretKey') secretKey: string,
   ) {
-    await this.recipesService.deleteRecipe(recipeName);
-    return res.redirect('/');
+    if (secretKey === SECRET_KEY) {
+      await this.recipesService.deleteRecipe(recipeId);
+      return res.redirect('/');
+    } else {
+      return res.redirect('/?error=incorrect+secret+key');
+    }
   }
 
   @Get('/add-recipe')
-  async renderAddRecipeForm(@Res() res: Response) {
+  async renderAddRecipeForm(
+    @Res() res: Response,
+    @Query('error') error: string,
+  ) {
     const products = await this.recipesService.getAllProducts();
     return res.render('add-recipe.hbs', {
       products: products,
+      error,
     });
   }
 
   @Post('/add-recipe')
-  async createNewRecipe(@Res() res: Response, @Body() body: RecipeDTO) {
-    await this.recipesService.createNewRecipe(body);
-    return res.redirect('/');
+  async createNewRecipe(
+    @Res() res: Response,
+    @Body() body: RecipeDTO & { secretKey: string },
+  ) {
+    const { secretKey, ...entity } = body;
+
+    if (secretKey === SECRET_KEY) {
+      await this.recipesService.createNewRecipe(entity);
+      return res.redirect('/');
+    } else {
+      res.redirect('/add-recipe?error=incorrect+secretKey');
+    }
   }
 
   @Get('/edit-recipe')
   async renderEditRecipeForm(
     @Res() res: Response,
-    @Query('recipeName') recipeName: string,
+    @Query('recipeId') recipeName: string,
+    @Query('error') error: string,
   ) {
     const allProducts = await this.recipesService.getAllProducts();
-    const recipe = await this.recipesService.getRecipeByName(recipeName);
+    const recipe = await this.recipesService.getRecipeById(recipeName);
     const recipesProductsName = recipe.products.map((p) => p.name);
     const products = allProducts.map((product) => {
       return {
@@ -70,15 +92,21 @@ export class RecipesController {
     res.render('edit-recipe.hbs', {
       ...recipe,
       products,
+      error,
     });
   }
 
   @Post('/edit-recipe')
   async editRecipe(
     @Res() res: Response,
-    @Body() body: RecipeDTO & { id: number },
+    @Body() body: RecipeDTO & { id: number; secretKey: string },
   ) {
-    await this.recipesService.updateRecipe(body);
-    res.redirect('/');
+    const { secretKey, ...dto } = body;
+    if (secretKey === SECRET_KEY) {
+      await this.recipesService.updateRecipe(dto);
+      res.redirect('/');
+    } else {
+      res.redirect(`/edit-recipe?recipeId=${dto.id}&error=incorrect+secretKey`);
+    }
   }
 }

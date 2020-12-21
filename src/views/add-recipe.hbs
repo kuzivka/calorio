@@ -1,3 +1,6 @@
+{{#if error}}
+  <span>Error: {{error}}</span>
+{{/if}}
 <form method="POST" action="add-recipe">
   <div>
     <label for="name">Recipe name:</label>
@@ -21,5 +24,11 @@
       {{/each}}
     </select>
   </div>
+
+  <div>
+    <label for="">Provide secret key:</label>
+    <input type="password" name="secretKey" />
+  </div>
+
   <input type="submit" value="Створити" />
 </form>
