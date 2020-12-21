@@ -10,6 +10,14 @@
     </section>
     <main>
       Main section
+      <form>
+        <label for="onlyVegeterian">Показувати лише вегетеріанський</label>
+        {{#if vegeterian}}
+          <input name="onlyVegeterian" type="checkbox" checked onChange="this.form.submit()" />
+        {{else}}
+          <input name="onlyVegeterian" type="checkbox" onChange="this.form.submit()" />
+        {{/if}}
+      </form>
       <ul>
         {{#each recipes}}
           <li>

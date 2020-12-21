@@ -17,10 +17,16 @@ export class RecipesController {
   private recipesService: RecipesService;
 
   @Get()
-  async showListOfRecipes(@Res() res: Response) {
-    const recipes = await this.recipesService.getAllRecipies();
+  async showListOfRecipes(
+    @Res() res: Response,
+    @Query('onlyVegeterian') onlyVegeterian: string,
+  ) {
+    const recipes = (await this.recipesService.getAllRecipies()).filter((r) => {
+      return !onlyVegeterian || r.vegeterian == Boolean(onlyVegeterian);
+    });
     return res.render('index.hbs', {
       recipes: recipes,
+      vegeterian: Boolean(onlyVegeterian),
     });
   }
 
