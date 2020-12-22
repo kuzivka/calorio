@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RecipeModule } from './recipes/recipes.module';
 import { CaloriesModule } from './calories/calories.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -23,8 +25,11 @@ import { CaloriesModule } from './calories/calories.module';
     }),
     RecipeModule,
     CaloriesModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'src/views/public/images'),
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}
