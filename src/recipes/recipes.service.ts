@@ -50,7 +50,7 @@ export class RecipesService {
   }
 
   getAllRecipies(): Promise<Recipe[]> {
-    return this.recipesRepository.find();
+    return this.recipesRepository.find({ relations: ['products'] });
   }
 
   async createNewRecipe(recipe: RecipeDTO) {

@@ -18,6 +18,12 @@
         {{#each recipes}}
           <li>
             {{name}}
+            <div>
+              {{description}}
+            </div>
+            <div>
+              {{products}}
+            </div>
             <form action="/delete-recipe" method="GET">
               <input name="recipeId" type="hidden" value="{{id}}" />
               <input name="secretKey" type="password" />

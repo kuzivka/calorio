@@ -26,8 +26,14 @@ export class RecipesController {
     const recipes = (await this.recipesService.getAllRecipies()).filter((r) => {
       return !onlyVegeterian || r.vegeterian == Boolean(onlyVegeterian);
     });
+    const recipesWithFormattedProducts = recipes.map((recipe) => {
+      return {
+        ...recipe,
+        products: recipe.products.map((p) => p.name).join(', '),
+      };
+    });
     return res.render('index.hbs', {
-      recipes: recipes,
+      recipes: recipesWithFormattedProducts,
       vegeterian: Boolean(onlyVegeterian),
       error,
     });
