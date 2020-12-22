@@ -1,0 +1,35 @@
+<form method="GET" action='/calories/calculate'>
+    <div>
+        <label for="age">Вік:</label>
+        <input name="age" type="number" />
+    </div>
+    <div>
+        <label for="weight">Вага</label>
+        <input name="weight" type="number" />
+    </div>
+    <div>
+        <label>Стать:</label>
+        <select name="sex">
+            <option value="man">Чоловіча</option>
+            <option value="female">Жіноча</option>
+        </select>
+    </div>
+    <div>
+        <label for="height">Ріст</label>
+        <input name="height" type="number" />
+    </div>
+    <div>
+        <label for="dishCount">Кількість прийомів їжі:</label>
+        <input name="dishCount" type="number" value="3" min="3" max="6" />
+    </div>
+    <div>
+        <label for="firstDishTime">Час першого прийому їжі:</label>
+        <input name="firstDishTime" type="time" />
+    </div>
+    <div>
+        <label for="lastDishTime">Час останнього прийому їжі:</label>
+        <input name="lastDishTime" type="time" />
+    </div>
+
+    <input type="submit" value="Порахувати" />
+</form>

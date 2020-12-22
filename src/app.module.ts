@@ -11,7 +11,7 @@ import { CaloriesModule } from './calories/calories.module';
       type: 'postgres',
       host: 'localhost',
       port: 5432,
-      username: 'angelina',
+      username: 'postgres',
       password: 'angelinakuziv',
       database: 'project',
       entities: ['./**/*.entity.js'],
@@ -27,4 +27,4 @@ import { CaloriesModule } from './calories/calories.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
