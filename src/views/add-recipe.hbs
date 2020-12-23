@@ -1,7 +1,7 @@
 {{#if error}}
 <span>Error: {{error}}</span>
 {{/if}}
-<form method="POST" action="add-recipe">
+<form method="POST" action="add-recipe" class="edit-form">
   <div>
     <label for="name">Назва Рецепту:</label>
     <input name="name" type="text" required />
@@ -32,3 +32,109 @@
 
     <input type="submit" value="Створити" />
 </form>
+<div class="button-container">
+  <a href="./">
+    <div class="add-button">
+      <p>На головну</p>
+    </div>
+  </a>
+</div>
+<style>
+  .edit-form {
+    background-color: #fcfcfc;
+    padding: 15px;
+  }
+
+  .edit-form fieldset {
+    border-radius: 10px;
+    border-color: #524941;
+    padding: 15px;
+  }
+
+  .edit-form textarea {
+    font-family: Georgia, "Times New Roman", Times, serif;
+    background: rgba(255, 255, 255, .1);
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    margin: 0;
+    outline: 0;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    background-color: #e8eeef;
+    color: #8a97a0;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03) inset;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03) inset;
+    margin-bottom: 30px;
+  }
+
+  .edit-form input {
+    font-family: Georgia, "Times New Roman", Times, serif;
+    background: rgba(255, 255, 255, .1);
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    margin: 0;
+    outline: 0;
+    padding: 10px;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    background-color: #cfda006e;
+    color: #8a97a0;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03) inset;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03) inset;
+    margin-bottom: 30px;
+  }
+
+  .edit-form textarea {
+    font-family: Georgia, "Times New Roman", Times, serif;
+    background: rgba(255, 255, 255, .1);
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    margin: 0;
+    outline: 0;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    background-color: #cfda006e;
+    color: #8a97a0;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03) inset;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03) inset;
+    margin-bottom: 30px;
+  }
+
+  .edit-form select {
+    -webkit-appearance: menulist-button;
+    height: 35px;
+    height: 100px;
+  }
+
+  .edit-form input[type="chekbox"] {
+    display: block;
+    width: 20px;
+  }
+
+  .add-button {
+    border-radius: 10px;
+    background-color: #7b792b;
+    width: 20%;
+    height: auto;
+    font-weight: 600;
+    color: #fcfcfc;
+    font-size: 17px;
+    text-align: center;
+    line-height: 40px;
+  }
+
+  div.button-container {
+    padding: 10px 0 10px;
+    text-align: right;
+  }
+</style>

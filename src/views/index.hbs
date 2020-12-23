@@ -9,15 +9,31 @@
 <body>
   <header>
     <div class="header">
-      <div><img src="/logo.png" alt="" width="300px"></div>
-      <div class="calculator"><a href="/calories">go rahuvaty</a></div>
+      <div><img src="/logo.svg" alt="" width="200px" height="auto"></div>
     </div>
   </header>
   <main>
-    <div class="form-style-5">
+    <div class="form-style-5 intro">
+      <div class="intro-text">
+        <p>Привіт. Це CALORIO - ресурс, що турбується про тебе. <br> і допоможе тобі харчуватись правильно. </p>
+        </p> Тут ти знайдеш рецепти корисних та смачних страв з уже обчисленою калорійністю та вмісто білків, жирів та
+        вуглеводів</p>
+      </div>
+      <div style="text-align: center;">
+        <a href="#go">
+          <div class="go">
+            <p style="margin-bottom: 0;">вперед</p>
+            <div class="rotate">&#10148;</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div id="go" class="form-style-5">
+      <h2>Давай обчислимо твої денні норми КБЖВ, води та складемо розклад прийомів їжі</h2>
       <form method="GET" action='/calories/calculate'>
         <fieldset>
-          <legend>Введіть дані для обчислення денних норм</legend>
+          <legend>Введи дані для обчислення денних норм</legend>
           <div>
             <label for="age">Вік:</label>
             <input name="age" type="number" />
@@ -39,7 +55,7 @@
           </div>
         </fieldset>
         <fieldset>
-          <legend>Введтіь дані для отримання розкладу прийомів їжі</legend>
+          <legend>Введи дані для отримання розкладу прийомів їжі</legend>
           <div>
             <label for="dishCount">Кількість прийомів їжі:</label>
             <input name="dishCount" type="number" value="3" min="3" max="6" />
@@ -53,58 +69,68 @@
             <input name="lastDishTime" type="time" />
           </div>
         </fieldset>
-        <input type="submit" value="Порахувати" />
+        <input type="submit" value="Обчислити" />
       </form>
     </div>
+    <div class="recipes form-style-5">
+      <h2>Рецепти</h2>
+      <div>
+        {{#if error}}
+        <span>Error: {{error}}</span>
+        {{/if}}
+      </div>
+      <form class="vegg-form">
+        {{#if vegeterian}}
+        <input name="onlyVegeterian" type="checkbox" checked onChange="this.form.submit()" />
+        {{else}}
+        <input name="onlyVegeterian" type="checkbox" onChange="this.form.submit()" />
+        {{/if}}
+        <label for="onlyVegeterian" class="vegg">Показувати лише вегетаріанські</label>
+      </form>
+      <ul>
+        {{#each recipes}}
+        <fieldset>
+          <li>
 
-    <div>
-      {{#if error}}
-      <span>Error: {{error}}</span>
-      {{/if}}
+            <h3>{{name}}</h3>
+            <div>
+              <h4>Продукти: </h4>
+              {{products}}
+            </div>
+            <div>
+              <h4>Рецепт: </h4>
+              {{description}}
+            </div>
+            <fieldset class="admin-panel">
+              <legend>Панель адімінстратора</legend>
+              <form action="/delete-recipe" method="GET">
+                <input name="recipeId" type="hidden" value="{{id}}" />
+                <input name="secretKey" type="password" placeholder="Пароль для видалення" />
+                <input type="submit" value="Видалити" />
+              </form>
+              <form class="admin-panel" action="/edit-recipe" method="GET">
+                <input name="recipeId" type="hidden" value="{{id}}" />
+                <input type="submit" value="Редагувати" target="_parent" />
+            </fieldset>
+        </fieldset>
+        </form>
+        </li>
+        {{/each}}
+      </ul>
     </div>
-    <p>Нижче ти побачиш рецепти корисних страв з уже обчисленою калорійністю, вмістом білків, жирів та вуглеводів.</p>
-    <p>Якщо ти ще не знаєш своєї денної норми води та калорій кнопка нижче тобі допоможе.</p>
-    <p>Якщо тобі потрібен погодинний розклад прийомів їжі не зволікай і тисни конопку нижче.</p>
-    <a href="/calories">Давай рахувати!</a>
-    <form>
-
-      <label for="onlyVegeterian">Показувати лише вегетеріанський</label>
-      {{#if vegeterian}}
-      <input name="onlyVegeterian" type="checkbox" checked onChange="this.form.submit()" />
-      {{else}}
-      <input name="onlyVegeterian" type="checkbox" onChange="this.form.submit()" />
-      {{/if}}
-
-    </form>
-    <ul>
-      {{#each recipes}}
-      <li>
-        {{name}}
-        <div>
-          {{description}}
+    <div class="button-container">
+      <a href="/add-recipe">
+        <div class="add-button">
+          <p>Додати новий рецепт</p>
         </div>
-        <div>
-          {{products}}
-        </div>
-        <form action="/delete-recipe" method="GET">
-          <input name="recipeId" type="hidden" value="{{id}}" />
-          <input name="secretKey" type="password" />
-          <input type="submit" value="Видалити" />
-        </form>
-        <form action="/edit-recipe" method="GET">
-          <input name="recipeId" type="hidden" value="{{id}}" />
-          <input type="submit" value="Редагувати" />
-        </form>
-      </li>
-      {{/each}}
-    </ul>
-    <a href="/add-recipe">Додати новий рецепт</a>
+      </a>
+    </div>
+
   </main>
   <footer>
     <div class="footer">
-      <div>
+      <div class="author">
         <p>Курсовий проект<br>студентки групи КН-305<br>Кузів Ангеліни</p>
-        <a href="#">hgghcch</a>
       </div>
     </div>
   </footer>
@@ -113,6 +139,11 @@
   header,
   footer {
     background-color: #524941;
+    margin: 0;
+  }
+
+  footer p {
+    margin: 0;
   }
 
   header {
@@ -134,16 +165,19 @@
   }
 
   main {
-    padding: 50px 30px 40px;
+    padding: 20px 30px 40px;
+  }
+
+  img {
+    margin-left: 30px;
   }
 </style>
 <style type="text/css">
   .form-style-5 {
-    max-width: 700px;
-    padding: 10px 20px;
+    max-width: 1000px;
+    padding: 10px 20%;
     background: #fcfcfc;
     margin: 10px auto;
-    padding: 20px;
     border-radius: 8px;
     font-family: Georgia, "Times New Roman", Times, serif;
   }
@@ -235,7 +269,7 @@
     padding: 19px 39px 18px 39px;
     color: #fcfcfc;
     margin: 0 auto;
-    background: #524941;
+    background: #685c52;
     font-size: 18px;
     text-align: center;
     font-style: normal;
@@ -248,7 +282,105 @@
 
   .form-style-5 input[type="submit"]:hover,
   .form-style-5 input[type="button"]:hover {
-    background: #2e2a27;
+    background: #838a00;
+  }
+
+  .recipes input[type="submit"] {
+    position: relative;
+    display: inline-block;
+
+    color: #fcfcfc;
+    margin: 0 auto;
+    padding: 2px;
+    background: #ceda00;
+    font-size: 12px;
+    text-align: center;
+    font-style: normal;
+    height: 20px;
+    width: 100px;
+    border: 1px solid #838a00;
+    border-width: 1px 1px 3px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+  }
+
+  .recipes legend,
+  .admin-panel label {
+    font-size: 0.7em;
+  }
+
+  ul {
+    list-style: none;
+  }
+
+  .intro-text {
+    margin-top: 120px;
+  }
+
+  .intro {
+    min-height: 80vh;
+    text-transform: uppercase;
+    color: #524941;
+    font-size: 24px;
+    vertical-align: middle;
+
+  }
+
+  .go {
+    position: absolute;
+    left: 46%;
+    bottom: 25px;
+  }
+
+  .rotate {
+    transform: rotate(90deg);
+  }
+
+  a:link,
+  a:visited {
+    color: #524941;
+  }
+
+  a:hover {
+    color: #352f2a;
+  }
+
+  label.vegg {
+    display: inline-block;
+  }
+
+  form.vegg-form {
+    padding-top: 15px;
+  }
+
+  .add-button {
+    border-radius: 10px;
+    background-color: #7b792b;
+    width: 20%;
+    height: auto;
+    font-weight: 600;
+    color: #fcfcfc;
+    font-size: 17px;
+    text-align: center;
+    line-height: 40px;
+  }
+
+  div.button-container {
+    padding: 10px 0 10px;
+    text-align: right;
+  }
+
+  .admin-panel form {
+    display: inline-block;
+  }
+
+  .author {
+    text-align: right;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 600;
+    padding: 15px;
+    color: #fcfcfc;
   }
 </style>
 
